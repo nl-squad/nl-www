@@ -284,7 +284,7 @@ function monotone($s) {
                 </div>
             </div>
             <div class="footer">
-                <div class="button">Join server</div>
+                <div class="button">Join Server</div>
             </div>
         </div>
 <?
