@@ -1,0 +1,18 @@
+{
+    "connection": {
+        "address": "mynl.pl",
+        "user": "ubuntu",
+        "keyPath": "~/.ssh/nl"
+    },
+    "profiles": {
+        "default": {
+            "localDeploymentPath": "src",
+            "remoteDeploymentPath": "~/www",
+            "rsyncExclude": [
+                ".DS_Store"
+            ],
+            "containerName": "nl-www",
+            "restartPath": "~/www"
+        }
+    }
+}
