@@ -1,4 +1,8 @@
 <?
+error_reporting(E_ERROR | E_PARSE);
+if (getenv('DEBUG'))
+    error_reporting(E_ALL);
+
 function getAllCod2Servers() {
     $servers = array();
     $i = 1;
