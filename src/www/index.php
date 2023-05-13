@@ -88,6 +88,38 @@ function getServerStatus($address, $port) {
     return $srv;
 }
 
+function colorize($s)
+{
+    $pattern[0]="^^00";	$replacement[0]='</font><font color="black">';
+    $pattern[1]="^^11";	$replacement[1]='</font><font color="red">';
+    $pattern[2]="^^22";	$replacement[2]='</font><font color="lime">';
+    $pattern[3]="^^33";	$replacement[3]='</font><font color="yellow">';
+    $pattern[4]="^^44";	$replacement[4]='</font><font color="blue">';
+    $pattern[5]="^^55";	$replacement[5]='</font><font color="aqua">';
+    $pattern[6]="^^66";	$replacement[6]='</font><font color="#FF00FF">';
+    $pattern[7]="^^77";	$replacement[7]='</font><font color="white">';
+    $pattern[8]="^^88";	$replacement[8]='</font><font color="orange">';
+    $pattern[9]="^^99";	$replacement[9]='</font><font color="gray">';
+    $pattern[10]="^0";	$replacement[10]='</font><font color="black">';
+    $pattern[11]="^1";	$replacement[11]='</font><font color="red">';
+    $pattern[12]="^2";	$replacement[12]='</font><font color="lime">';
+    $pattern[13]="^3";	$replacement[13]='</font><font color="yellow">';
+    $pattern[14]="^4";	$replacement[14]='</font><font color="blue">';
+    $pattern[15]="^5";	$replacement[15]='</font><font color="aqua">';
+    $pattern[16]="^6";	$replacement[16]='</font><font color="#FF00FF">';
+    $pattern[17]="^7";	$replacement[17]='</font><font color="white">';
+    $pattern[18]="^8";	$replacement[18]='</font><font color="orange">';
+    $pattern[19]="^9";	$replacement[19]='</font><font color="gray">';
+    $pattern[20]="ˇ!ˇ";	$replacement[20]='<span style="background-color: yellow; color: black">&nbsp;</span>';
+
+    $s = str_replace($pattern, $replacement, htmlspecialchars($s));
+    $i = strpos($s, '</font>');
+    if ($i !== false)
+	   {return '<font color="white">' . substr($s, 0, $i) . substr($s, $i+7, strlen($s)) . '</font>' . '</font>';}
+    else
+	   {return '<font color="white">' . $s . '</font>';}
+}
+
 //
 
 foreach (getAllCod2Servers() as $server) {
@@ -95,6 +127,7 @@ foreach (getAllCod2Servers() as $server) {
     <div>
         <p>Address: <? echo $server->address; ?>:<? echo $server->port; ?></p>
 
+        <? echo colorize('^1Test ^2All ^3Colors ^4NL'); ?>
         <? print_r(getValueFromCod2ServerResponse($server->address, $server->port)); ?>
     </div>
 <?
