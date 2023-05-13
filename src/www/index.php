@@ -84,10 +84,7 @@ function colorize($s) {
     return $s;
 }
 
-$text = colorize('^1Test ^2All ^5Colors ^4NL');
-echo $text;
-$text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-echo $text;
+echo colorize('^1Test ^2All ^5Colors ^4NL');
 
 foreach (getAllCod2Servers() as $server) {
     ?>
