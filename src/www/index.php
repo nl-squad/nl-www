@@ -25,6 +25,29 @@ function getValueFromCod2ServerResponse($srv_value, $srv_data) {
 }
 
 function getServerStatus($address, $port) {
+    $cacheDir = "./cache";
+    $cacheFile = "$cacheDir/server_status_{$address}_{$port}.cache";
+
+    if (!is_dir($cacheDir)) {
+        mkdir($cacheDir, 0777, true);
+    }
+
+    if (file_exists($cacheFile) && filemtime($cacheFile) > time() - 10) {
+        $serverStatus = unserialize(file_get_contents($cacheFile));
+    } else {
+        $serverStatus = [
+            'timestamp' => time(),
+            'status' => fetchServerStatus($address, $port)
+        ];
+
+        file_put_contents($cacheFile, serialize($serverStatus));
+    }
+
+    return $serverStatus;
+}
+
+function fetchServerStatus($address, $port) {
+
     $socket = stream_socket_client('udp://' . $address . ':' . $port, $errno, $errstr, 1);
     if ($socket === false) {
         return ['isOnline' => false];
