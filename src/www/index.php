@@ -32,7 +32,7 @@ function getServerStatus($address, $port) {
         mkdir($cacheDir, 0777, true);
     }
 
-    if (file_exists($cacheFile) && filemtime($cacheFile) > time() - 1) {
+    if (file_exists($cacheFile) && filemtime($cacheFile) > time() - (int)getenv('SERVER_CACHE_SECONDS')) {
         $serverStatus = unserialize(file_get_contents($cacheFile));
     } else {
         $serverStatus = [
