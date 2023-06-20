@@ -190,7 +190,7 @@ function monotone($s) {
             justify-content: center;
             align-items: center;
             font-size: 14px;
-            padding: 0 20px;
+            padding: 0 20px 20px;
         }
         .cod2-widget {
             max-width: 100%;
