@@ -11,6 +11,7 @@ services:
     environment:
       - SERVER_CACHE_SECONDS=30
       - COD2_SERVER1_ADDRESS=nl-cod2-zom-dev
+      - COD2_SERVER1_DISPLAYADDRESS=mynl.pl
       - COD2_SERVER1_PORT=7
 
 networks:

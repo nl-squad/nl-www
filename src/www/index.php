@@ -7,6 +7,7 @@ function getAllCod2Servers() {
         $servers[] = [
             'address' => $address,
             'port' => getenv(sprintf('COD2_SERVER%d_PORT', $i)),
+            'displayAddress' => getenv(sprintf('COD2_SERVER%d_DISPLAYADDRESS', $i)),
         ];
     }
     return $servers;
@@ -93,6 +94,8 @@ function fetchServerStatus($address, $port) {
 
     return [
         'isOnline' => true,
+        'address' => $address,
+        'port' => $port,
         'ping' => round(($time_end - $time_begin) * 1000),
         'hostname' => getValueFromCod2ServerResponse('sv_hostname', $gameInfo),
         'hasPassword' => getValueFromCod2ServerResponse('pswrd', $gameInfo),
@@ -177,7 +180,7 @@ function monotone($s) {
         }
         .logo {
             max-width: 300px;
-            margin: 20px 0 60px 0;
+            margin: 40px 0 60px 0;
         }
         .container {
             display: flex;
@@ -188,7 +191,7 @@ function monotone($s) {
         }
         .cod2-widget {
             width: 400px;
-            height: 300px;
+            max-height: 300px;
             background-color: rgb(32, 34, 37);
             color: white;
             border-radius: 5px;
@@ -209,10 +212,10 @@ function monotone($s) {
         .content {
             padding: 20px;
             overflow-y: scroll;
-            height: 150px;
+            max-height: 150px;
         }
         .map-name {
-            font-size: 16px;
+            font-size: 15px;
             margin-bottom: 12px;
         }
         .player-list {
@@ -244,6 +247,98 @@ function monotone($s) {
         .button:hover {
             opacity: .6;
         }
+
+        #popup-back {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.05);
+            width: 450px;
+            max-width: 80vh;
+
+            color: #fff;
+            z-index: 100;
+            transition: transform 0.3s ease-out;
+            font-family: 'Inter', sans-serif;
+
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            background-color: rgba(17, 25, 40, 0.75);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+
+        #popup header {
+            border-bottom: 1px solid hsla(0,0%,100%,.1);
+            padding: 20px 24px;
+            font-size: 18px;
+        }
+
+        #popup p {
+            margin: 20px;
+            color: #dddddd;
+            font-size: 14px;
+            text-align: justify;
+        }
+
+        #popup #version, #popup #hostname {
+            font-weight: bold;
+        }
+
+        #popup code {
+            position: relative;
+            display: block;
+            padding: 10px 16px;
+            margin: 20px 20px 24px 20px;
+            background: rgba(88, 101, 242, 0.2);
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #popup code:hover::after {
+            content: ' ';
+        }
+
+        #popup code::after {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            height: 16px;
+            width: 16px;
+
+            transform: translate(0, -50%);
+            background: url('copy.png');
+            filter: invert(1);
+            background-size: 100% 100%;
+        }
+
+        #popup code.copied::before {
+            content: 'Copied to clipboard!';
+            position: absolute;
+            top: -16px;
+            right: 4px;
+            background: rgba(88, 101, 242, 0.2);
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            border-bottom: none;
+            font-family: 'Inter', sans-serif;
+            line-height: 15px;
+            font-size: 10px;
+            padding: 0 6px;
+            border-radius: 2px 2px 0 0;
+            color: #ddd;
+        }
+
     </style>
 </head>
 <body>
@@ -259,7 +354,7 @@ function monotone($s) {
 ?>
         <div class="cod2-widget">
             <div class="header">
-                <div class="header-title">
+                <div class="header-title" id="hostname<?= $status['port'] ?>">
                     <?= colorize($status['hostname']) ?>
                 </div>
                 <div class="header-status">
@@ -284,12 +379,82 @@ function monotone($s) {
                 </div>
             </div>
             <div class="footer">
-                <div class="button">Join Server</div>
+                <div class="button" onClick="join('<?= $server['displayAddress'] ?>', '<?= $status['port'] ?>', 'hostname<?= $status['port'] ?>', '<?= $status['version'] ?>')">Join Server</div>
             </div>
         </div>
 <?
         }
 ?>
     </div>
+
+    <div id="popup-back" onClick="closePopup()">
+        <div id="popup" onClick="event.stopPropagation();">
+            <header>Join server</header>
+            <p><span id="hostname">`nL.Zombies*</span> server is running on Call of Duty 2 version <span id="version">1.3</span>. Find it on the server list or type in the below command in in-game console.</p>
+
+            <code onClick="copyJoinString()">/connect <span id="address">mynl.pl</span><span id="port">:1</span></code>
+        </div>
+    </div>
+
+    <script>
+        function join(address, port, hostnameId, version) {
+
+            const addressElement = document.getElementById('address');
+            const portElement = document.getElementById('port');
+            const hostnameElement = document.getElementById('hostname');
+            const versionElement = document.getElementById('version');
+
+            if (port == '28960') {
+                port = '';
+            }
+            else {
+                port = `:${port}`;
+            }
+
+            const hostname = document.getElementById(hostnameId).innerHTML;
+
+            addressElement.innerText = address;
+            portElement.innerText = port;
+            hostnameElement.innerHTML = hostname;
+            versionElement.innerText = version;
+
+            const popupBack = document.getElementById('popup-back');
+            popupBack.style.display = 'block';
+
+            const popup = document.getElementById('popup');
+            setTimeout(() => {
+                popup.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 50);
+        }
+
+        function closePopup() {
+            const popupBack = document.getElementById('popup-back');
+            popupBack.style.display = 'none';
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' || event.keyCode === 27) {
+                closePopup();
+            }
+        });
+
+        function copyJoinString() {
+            const codeElement = document.querySelector('#popup code');
+            const textToCopy = codeElement.innerText;
+
+            // Creating a temporary input that holds our string
+            let tempInput = document.createElement("input");
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            codeElement.classList.add("copied");
+            setTimeout(() => {
+                codeElement.classList.remove("copied");
+            }, 2000);
+        }
+    </script>
 </body>
 </html>

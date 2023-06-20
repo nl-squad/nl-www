@@ -12,4 +12,5 @@ services:
       - DEBUG=true
       - SERVER_CACHE_SECONDS=0
       - COD2_SERVER1_ADDRESS=mynl.pl
+      - COD2_SERVER1_DISPLAYADDRESS=mynl.pl
       - COD2_SERVER1_PORT=7
