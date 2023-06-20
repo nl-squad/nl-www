@@ -177,6 +177,8 @@ function monotone($s) {
             background-attachment: fixed;
             font-family: 'Inter', sans-serif;
             color: white;
+            width: 100%;
+            margin: 0;
         }
         .logo {
             max-width: 300px;
@@ -188,8 +190,10 @@ function monotone($s) {
             justify-content: center;
             align-items: center;
             font-size: 14px;
+            padding: 0 20px;
         }
         .cod2-widget {
+            max-width: 100%;
             width: 400px;
             max-height: 300px;
             background-color: rgb(32, 34, 37);
@@ -255,6 +259,7 @@ function monotone($s) {
             left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(0, 0, 0, 0.8);
         }
 
         #popup {
@@ -263,7 +268,7 @@ function monotone($s) {
             left: 50%;
             transform: translate(-50%, -50%) scale(1.05);
             width: 450px;
-            max-width: 80vh;
+            max-width: 80vw;
 
             color: #fff;
             z-index: 100;
@@ -344,7 +349,7 @@ function monotone($s) {
 <body>
     <div class="container">
         <img src="nolimitslogo.png" class="logo">
-        <iframe src="https://discord.com/widget?id=1090555635239751703&theme=dark" width="400" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <iframe src="https://discord.com/widget?id=1090555635239751703&theme=dark" style="width: 400px; height: 300px; max-width: 100%;" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 <?
         foreach (getAllCod2Servers() as $server) {
             $status = getServerStatus($server['address'], $server['port'])['status'];
