@@ -8,7 +8,7 @@ mynl.pl website
 (cd src && docker-compose -f docker-compose.local.yml up)
 ```
 
-# Deploy and restart server
+# Deploy and restart server (using nl-cli tool)
 
 ```sh
 mynl deploy && mynl restart

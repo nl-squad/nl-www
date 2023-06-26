@@ -175,6 +175,9 @@ function monotone($s) {
             background-image: url("nolimitsbackground.png");
             background-repeat: no-repeat;
             background-attachment: fixed;
+            background-size: contain;
+            background-position: top center;
+            background-color: black;
             font-family: 'Inter', sans-serif;
             color: white;
             width: 100%;
