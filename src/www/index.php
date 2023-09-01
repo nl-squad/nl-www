@@ -104,6 +104,7 @@ function fetchServerStatus($address, $port) {
         'prvPlayers' => getValueFromCod2ServerResponse('sv_privateClients', $gameInfo),
         'maxPlayers' => getValueFromCod2ServerResponse('sv_maxclients', $gameInfo),
         'version' => getValueFromCod2ServerResponse('shortversion', $gameInfo),
+        'mapSecondsLeft' => getValueFromCod2ServerResponse("_MapSecondsLeft", $gameInfo),
         'players' => $parsedPlayers,
     ];
 }
@@ -152,6 +153,19 @@ function monotone($s) {
         "^9" => '',
     ];
     return str_replace(array_keys($patterns), $patterns, htmlspecialchars($s));
+}
+
+function getNextInString($secondsLeft) {
+    if (!$secondsLeft) {
+        return '';
+    }
+
+    $minutes = floor($secondsLeft / 60);
+    if ($minutes > 0) {
+        return ', next in: <b>' . $minutes . '</b> minutes';
+    }
+
+    return ', next in: <b>' . $secondsLeft . '</b> seconds';
 }
 
 ?>
@@ -371,7 +385,7 @@ function monotone($s) {
             </div>
             <div class="content">
                 <div class="map-name">
-                    Current map is <b><?= $status['mapName'] ?></b>
+                    Current map is <b><?= $status['mapName'] ?></b><?= getNextInString($status['mapSecondsLeft']) ?>
                 </div>
                 <div class="player-list">
 <?
