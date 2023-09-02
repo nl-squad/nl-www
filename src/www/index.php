@@ -160,12 +160,12 @@ function getNextInString($secondsLeft) {
         return '';
     }
 
-    $minutes = floor($secondsLeft / 60);
-    if ($minutes > 0) {
-        return ', next in: <b>' . $minutes . '</b> minutes';
+    if ($secondsLeft <= 60) {
+        return ', next in: <b>' . $secondsLeft . '</b> seconds';
     }
 
-    return ', next in: <b>' . $secondsLeft . '</b> seconds';
+    $minutes = ceil($secondsLeft / 60);
+    return ', next in: <b>' . $minutes . '</b> minutes';
 }
 
 ?>
