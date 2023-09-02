@@ -156,8 +156,8 @@ function monotone($s) {
 }
 
 function getNextInString($secondsLeft) {
-    if (!$secondsLeft) {
-        return '';
+    if ($secondsLeft <= 0) {
+        return ', match summary';
     }
 
     if ($secondsLeft <= 60) {
