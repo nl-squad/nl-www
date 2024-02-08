@@ -196,6 +196,7 @@ function getNextInString($secondsLeft) {
             color: white;
             width: 100%;
             margin: 0;
+            cursor: url('http://web.archive.org/web/20171005001539im_/http://mynl.pl/styles/images/static/cursor.cur'), auto;
         }
         .logo {
             max-width: 300px;
@@ -217,6 +218,7 @@ function getNextInString($secondsLeft) {
             color: white;
             border-radius: 5px;
             margin: 20px 0 0 0;
+            cursor: url('http://web.archive.org/web/20171005001539im_/http://mynl.pl/styles/images/static/cursor.cur'), auto;
         }
         .header {
             background-color: rgb(88, 101, 242);
@@ -361,11 +363,33 @@ function getNextInString($secondsLeft) {
             color: #ddd;
         }
 
+        .download-button {
+            margin-top: 20px; /* Dodajemy margines na górę */
+        }
+        
+        .download-button a {
+            display: inline-block;
+            background-color: rgb(0, 145, 255); ; 
+            color: white; 
+            font-weight: bold;
+            padding: 10px 20px; /* dodajemy odstępy wokół tekstu */
+            border-radius: 5px; /* zaokrąglone rogi */
+            text-decoration: none; /* usuwamy podkreślenie */
+            transition: background-color 0.3s; /* płynne przejście */
+        }
+        
+        .download-button a:hover {
+            background-color: darkblue; /* zmiana koloru tła po najechaniu */
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <img src="nolimitslogo.png" class="logo">
+        <div class="download-button">
+            <a href="https://fastdl.mynl.pl/nl-cod2-zom/nl/">Downloads</a>
+        </div></br>
         <iframe src="https://discord.com/widget?id=1090555635239751703&theme=dark" style="width: 400px; height: 300px; max-width: 100%;" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 <?
         foreach (getAllCod2Servers() as $server) {
