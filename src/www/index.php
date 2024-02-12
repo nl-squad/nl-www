@@ -247,6 +247,12 @@ function getNextInString($secondsLeft) {
         }
         .player {
             line-height: 16px;
+            display: flex;
+            align-items: center;
+            margin: 4px 0;
+        }
+        .player img {
+            margin: 0 4px 0 0;
         }
         .footer {
             padding: 6px;
@@ -393,7 +399,7 @@ function getNextInString($secondsLeft) {
                 foreach ($status['players'] as $player) {
 ?>
                     <div class="player">
-                        <img src="https://avatars.dicebear.com/api/open-peeps/<?= preg_replace("/[^a-zA-Z0-9]/", "", monotone($player['name'])) ?>.svg" width="16" height="16" />
+                        <img src="https://api.dicebear.com/7.x/big-smile/svg?seed=<?= preg_replace("/[^a-zA-Z0-9]/", "", monotone($player['name'])) ?>" width="26" height="26" />
                         <?= monotone($player['name']) ?>
                     </div>
 <?
