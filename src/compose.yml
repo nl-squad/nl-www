@@ -2,8 +2,6 @@ version: '3.8'
 services:
   nl-www:
     image: php:7.4-apache
-    container_name: nl-www
-    restart: always
     ports:
       - 8000:80
     volumes:
@@ -16,5 +14,5 @@ services:
 
 networks:
   default:
-    external:
-      name: my_network
+    name: stack_network
+    external: true
